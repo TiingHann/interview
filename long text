@@ -1,0 +1,27 @@
+data = {}
+
+lines = long_text.strip().split('\n')
+
+data['name'] = lines[0]
+data['lei'] = lines[1]
+
+sub_funds = []  
+current_sub_fund = None  
+
+for line in lines[2:]:
+    if line.startswith('1.'):  
+        if current_sub_fund:  
+            sub_funds.append(current_sub_fund)
+        current_sub_fund = {
+            'title': line[3:], 
+            'isin': []  
+        }
+    elif line.startswith('2.') or line.startswith('3.') or line.startswith('4.'):
+        current_sub_fund['isin'].append(line)  
+
+if current_sub_fund:  
+    sub_funds.append(current_sub_fund)
+
+data['sub_fund'] = sub_funds
+
+print(data)
